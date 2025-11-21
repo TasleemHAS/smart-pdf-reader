@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Ask Question";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">
+                        <i class="fas fa-question-circle"></i> Ask Question
+                    </h2>
+                    <p class="text-center mb-0 mt-2">@ViewBag.BookTitle</p>
+                </div>
+                <div class="card-body">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <h5>Please fix the following errors:</h5>
+                            <ul>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    <form asp-action="Ask" method="post">
+                        <input type="hidden" name="id" value="@ViewBag.BookId" />
+
+                        <div class="mb-3">
+                            <label for="questionText" class="form-label">Your Question *</label>
+                            <textarea class="form-control" id="questionText" name="questionText"
+                                      rows="4" maxlength="500" placeholder="Enter your question about this book..."
+                                      required></textarea>
+                            <div class="form-text">
+                                <span id="charCount">0</span>/500 characters
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Note:</strong> For best results, ensure your PDF contains selectable text (not scanned images).
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-paper-plane"></i> Ask Question
+                            </button>
+                            <a href="/Questions/Index/@ViewBag.BookId" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Questions
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Character count for question text
+        const questionText = document.getElementById('questionText');
+        const charCount = document.getElementById('charCount');
+
+        questionText.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+
+            if (this.value.length > 500) {
+                charCount.classList.add('text-danger');
+            } else {
+                charCount.classList.remove('text-danger');
+            }
+        });
+
+        // Initialize character count
+        charCount.textContent = questionText.value.length;
+    </script>
+}

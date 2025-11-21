@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Upload Book";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Upload PDF Book</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Display validation errors -->
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <h5>Please fix the following errors:</h5>
+                            <ul>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    <form asp-action="Upload" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="Title" class="form-label">Book Title *</label>
+                            <input type="text" class="form-control" id="Title" name="Title" required 
+                                   value="@Model?.Title">
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Author" class="form-label">Author</label>
+                            <input type="text" class="form-control" id="Author" name="Author" 
+                                   value="@Model?.Author">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pdfFile" class="form-label">PDF File *</label>
+                            <input type="file" class="form-control" id="pdfFile" name="pdfFile" accept=".pdf" required>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle"></i> 
+                                Maximum file size: 10MB. Please upload PDF files with selectable text (not scanned images).
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-upload"></i> Upload Book
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Books
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #4361ee, #3a56d4);
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+        padding: 1.5rem;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #4361ee, #3a56d4);
+        border: none;
+        padding: 12px;
+        font-weight: 600;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+    }
+    
+    .alert-danger {
+        border-left: 4px solid #dc3545;
+    }
+</style>
