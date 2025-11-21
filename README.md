@@ -30,5 +30,5 @@ A powerful ASP.NET Core web application that allows users to upload PDF files an
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/smart-pdf-reader.git
+   git clone https://github.com/TasleemHAS/smart-pdf-reader.git
    cd smart-pdf-reader
